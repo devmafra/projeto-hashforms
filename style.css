@@ -77,7 +77,8 @@ label {
   flex-basis: 100px;
 }
 input[type="text"],
-input[type="number"] {
+input[type="number"],
+select {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
@@ -87,8 +88,12 @@ input[type="number"] {
   color: var(--white);
   font-size: 1rem;
 }
+select:invalid {
+  color: gray;
+}
 input[type="text"]:focus,
-input[type="number"]:focus {
+input[type="number"]:focus,
+select:focus {
   border-color: var(--focus);
   outline: none;
 }

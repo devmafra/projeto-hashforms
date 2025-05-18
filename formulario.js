@@ -1,4 +1,17 @@
 const formulario = document.getElementById("formulario");
+// Aplicar máscaras
+IMask(document.getElementById("cpf"), {
+  mask: "00000000000", // sem pontuação, porque seu validador espera só os dígitos
+});
+
+IMask(document.getElementById("telefone"), {
+  mask: "00000000000", // sem parênteses e traços, compatível com seu validador
+});
+
+IMask(document.getElementById("cep"), {
+  mask: "00000000", // mesmo motivo
+});
+
 // Função validar somente letras - campo nome
 function isValidName(string) {
   for (let i = 0; i < string.length; i++) {
@@ -24,13 +37,10 @@ function isValidCEP(cep) {
 }
 
 function isValidState(state) {
-  return (
-    state.length === 2 &&
-    state[0] >= "A" &&
-    state[0] <= "Z" &&
-    state[1] >= "A" &&
-    state[1] <= "Z"
-  );
+  return state.length === 2;
+}
+function limparMascara(valor) {
+  return valor.replace(/\D/g, ""); // remove tudo que não for número
 }
 function validarEGuardarFormulario(event) {
   event.preventDefault();
@@ -65,20 +75,23 @@ function validarEGuardarFormulario(event) {
     alert("O nome deve conter apenas letras e espaços");
     return;
   }
-  if (!isValidCPF(cpf)) {
-    alert("O CPF deve conter 11 digitos númericos");
+  const cpfLimpo = limparMascara(cpf);
+  if (!isValidCPF(cpfLimpo)) {
+    alert("CPF inválido");
     return;
   }
-  if (!isValidPhone(telefone)) {
+  const telefoneLimpo = limparMascara(telefone);
+  if (!isValidPhone(telefoneLimpo)) {
     alert("O telefone deve conter 11 digitos númericos");
     return;
   }
-  if (!isValidCEP(cep)) {
+  const cepLimpo = limparMascara(cep);
+  if (!isValidCEP(cepLimpo)) {
     alert("O CEP deve conter 8 digitos númericos");
     return;
   }
   if (!isValidState(estado)) {
-    alert("O estado deve ser uma sigla de 2 letras maúsculas");
+    alert("Selecione o estado");
     return;
   }
 
